@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VNPayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,24 @@ Route::get('/test', function () {
     return session()->all();
 });
 
-Route::get('/invoice', function () {
-   return view('invoice');
+Route::post('/pay', function (Request $request) {
+    session()->flush();
+    $data = $request->all();
+    session()->put('payment', $data);
+
+    return (new VNPayController())->createPaymentUrl([
+        'amount' => $data['amount'],
+        'bank_code' => $data['bank_code'],
+    ]);
+
+})->name('pay');
+
+Route::get('/invoice', function (Request $request) {
+    $payment = session()->get('payment');
+    return empty($payment) ?
+        redirect()->back() :
+        view('invoice', [
+            'payment' => $payment,
+            'data' => $request->all(),
+        ]);
 });

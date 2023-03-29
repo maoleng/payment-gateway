@@ -164,25 +164,25 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="mb-2">
                                     <label class="form-label" cfor="checkout-name">Họ và tên:</label>
-                                    <input type="text" id="checkout-name" class="form-control" name="fname" placeholder="{{ env('OWNER_NAME') }}" />
+                                    <input id="i-name" type="text" id="checkout-name" class="form-control" name="fname" placeholder="{{ env('OWNER_NAME') }}" />
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="mb-2">
                                     <label class="form-label" cfor="checkout-number">Số điện thoại:</label>
-                                    <input type="number" id="checkout-number" class="form-control" name="mnumber" placeholder="0123456789" />
+                                    <input id="i-phone" type="text" id="checkout-number" class="form-control" name="mnumber" placeholder="0123456789" />
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="mb-2">
                                     <label class="form-label" cfor="checkout-apt-number">Số nhà, tên đường:</label>
-                                    <input type="number" id="checkout-apt-number" class="form-control" name="apt-number" placeholder="123 CMT8" />
+                                    <input id="i-address1" type="text" id="checkout-apt-number" class="form-control" name="apt-number" placeholder="123 CMT8" />
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="mb-2">
                                     <label class="form-label" cfor="checkout-landmark">Thành phố/Tỉnh:</label>
-                                    <input type="text" id="checkout-landmark" class="form-control" name="landmark" placeholder="Hồ Chí Minh" />
+                                    <input id="i-address2" type="text" id="checkout-landmark" class="form-control" name="landmark" placeholder="Hồ Chí Minh" />
                                 </div>
                             </div>
                             <div class="col-12">
@@ -196,7 +196,7 @@
         <!-- Checkout Customer Address Ends -->
         <!-- Checkout Payment Starts -->
         <div id="step-payment" class="content" role="tabpanel" aria-labelledby="step-payment-trigger">
-            <form id="checkout-payment" class="list-view product-checkout" onsubmit="return false;">
+            <form id="form-checkout" class="list-view product-checkout" onsubmit="return false;">
                 <div class="payment-type">
                     <div class="card">
                         <div class="card-header flex-column align-items-start">
@@ -207,25 +207,25 @@
                             <ul class="other-payment-options list-unstyled">
                                 <li class="py-50">
                                     <div class="form-check">
-                                        <input type="radio" id="customColorRadio2" name="paymentOptions" class="form-check-input" />
-                                        <label class="form-check-label" for="customColorRadio2"> Cổng thanh toán VNPAY </label>
+                                        <input value="VNPAYQR" type="radio" id="customColorRadio2" name="paymentOptions" class="form-check-input" />
+                                        <label class="form-check-label" for="customColorRadio2"> Cổng thanh toán VNPAYQR </label>
                                     </div>
                                 </li>
                                 <li class="py-50">
                                     <div class="form-check">
-                                        <input type="radio" id="customColorRadio3" name="paymentOptions" class="form-check-input" />
-                                        <label class="form-check-label" for="customColorRadio3"> Cổng thanh toán Momo </label>
+                                        <input value="VNBANK" type="radio" id="customColorRadio3" name="paymentOptions" class="form-check-input" />
+                                        <label class="form-check-label" for="customColorRadio3"> Thanh toán qua thẻ ATM/Tài khoản nội địa </label>
                                     </div>
                                 </li>
                                 <li class="py-50">
                                     <div class="form-check">
-                                        <input type="radio" id="customColorRadio4" name="paymentOptions" class="form-check-input" />
-                                        <label class="form-check-label" for="customColorRadio4"> Thanh toán trực tiếp </label>
+                                        <input value="INTCARD" type="radio" id="customColorRadio4" name="paymentOptions" class="form-check-input" />
+                                        <label class="form-check-label" for="customColorRadio4"> Thanh toán qua thẻ quốc tế </label>
                                     </div>
                                 </li>
                             </ul>
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary btn-next delivery-address">Tiếp tục</button>
+                                <button id="btn-pay" type="button" class="btn btn-primary btn-next delivery-address">Tiếp tục</button>
                             </div>
                         </div>
                     </div>
@@ -283,6 +283,26 @@
     <script src="{{ asset('app-assets/js/scripts/pages/app-ecommerce-checkout.js') }}"></script>
     <script>
         $(document).ready(function() {
+            $('#btn-pay').on('click', function() {
+                let payment_method = $('input[name=paymentOptions]:checked', '#form-checkout').val()
+
+                $.ajax({
+                    url: '{{ route('pay') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        bank_code: payment_method,
+                        amount: '{{ $total }}',
+                        name: $('#i-name').val(),
+                        phone: $('#i-phone').val(),
+                        address1: $('#i-address1').val(),
+                        address2: $('#i-address2').val(),
+                    }
+                }).done(function(url) {
+                    window.location.href = url;
+                })
+            })
+
             $('.btn-remove_cart').on('click', function() {
                 $.ajax({
                     url: '{{ route('remove_cart') }}',

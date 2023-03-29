@@ -31,11 +31,11 @@ $(function () {
     sortingDropdown = $('.dropdown-sort .dropdown-item'),
     sortingText = $('.dropdown-toggle .active-sorting'),
     wishlist = $('.btn-wishlist'),
-    checkout = 'app-ecommerce-checkout.html';
+    checkout = 'cart';
 
   if ($('body').attr('data-framework') === 'laravel') {
     var url = $('body').attr('data-asset-path');
-    checkout = url + 'app/ecommerce/checkout';
+    checkout = url + 'cart';
   }
 
   // On sorting dropdown change

@@ -13,12 +13,12 @@ $(function () {
     productOption = $('.product-color-options li'),
     btnCart = $('.btn-cart'),
     wishlist = $('.btn-wishlist'),
-    checkout = 'app-ecommerce-checkout.html',
+    checkout = 'cart',
     isRtl = $('html').attr('data-textdirection') === 'rtl';
 
   if ($('body').attr('data-framework') === 'laravel') {
     var url = $('body').attr('data-asset-path');
-    checkout = url + 'app/ecommerce/checkout';
+    checkout = url + 'cart';
   }
 
   // Init Swiper

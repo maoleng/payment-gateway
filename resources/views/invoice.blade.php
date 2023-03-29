@@ -72,10 +72,10 @@
                     <div class="row invoice-spacing">
                         <div class="col-xl-8 p-0">
                             <h6 class="mb-2">Người yêu cầu:</h6>
-                            <h6 class="mb-25">Thomas shelby</h6>
-                            <p class="card-text mb-25">Shelby Company Limited</p>
-                            <p class="card-text mb-25">Small Heath, B10 0HF, UK</p>
-                            <p class="card-text mb-25">718-986-6062</p>
+                            <h6 class="mb-25">{{{ $payment['name'] }}}</h6>
+                            <p class="card-text mb-25">{{ $payment['phone'] }}</p>
+                            <p class="card-text mb-25">{{ $payment['address1'] }}</p>
+                            <p class="card-text mb-25">{{ $payment['address2'] }}</p>
                         </div>
                         <div class="col-xl-4 p-0 mt-xl-0 mt-2">
                             <h6 class="mb-2">Thanh toán:</h6>
@@ -83,15 +83,15 @@
                                 <tbody>
                                 <tr>
                                     <td class="pe-1">Tổng:</td>
-                                    <td><span class="fw-bold">$12,110.55</span></td>
+                                    <td><span class="fw-bold">{{ prettyPrice($payment['amount']) }}</span></td>
                                 </tr>
                                 <tr>
                                     <td class="pe-1">Tên ngân hàng:</td>
-                                    <td>American Bank</td>
+                                    <td>{{ $data['vnp_BankCode'] }}</td>
                                 </tr>
                                 <tr>
                                     <td class="pe-1">Mã giao dịch:</td>
-                                    <td>ETD95476213874685</td>
+                                    <td>{{ $data['vnp_TransactionNo'] }}</td>
                                 </tr>
                                 </tbody>
                             </table>
