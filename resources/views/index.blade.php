@@ -70,7 +70,7 @@
                             <h4 class="item-price">$339.99</h4>
                         </div>
                     </div>
-                    <a href="#" class="btn btn-primary btn-cart">
+                    <a href="#" data-id="{{ $product->id }}" class="btn-add_to_cart btn btn-primary btn-cart">
                         <i data-feather="shopping-cart"></i>
                         <span class="add-to-cart">Thêm vào giỏ hàng</span>
                     </a>
@@ -111,4 +111,20 @@
 
 @section('script')
     <script src={{ asset('app-assets/js/scripts/pages/app-ecommerce.js') }}></script>
+    <script>
+        $(document).ready(function() {
+            $('.btn-add_to_cart').on('click', function () {
+                $.ajax({
+                    url: '{{ route('add_to_cart') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: $(this).data('id'),
+                    }
+                }).done(function(e) {
+                    console.log(e)
+                });
+            })
+        })
+    </script>
 @endsection

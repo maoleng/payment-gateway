@@ -68,314 +68,49 @@
             <div id="place-order" class="list-view product-checkout">
                 <!-- Checkout Place Order Left starts -->
                 <div class="checkout-items">
+                    @foreach ($products as $product)
                     <div class="card ecommerce-card">
                         <div class="item-img">
-                            <a href="app-ecommerce-details.html">
-                                <img src="app-assets/images/pages/eCommerce/1.png" alt="img-placeholder" />
+                            <a href="{{ route('detail', $product['information']->id) }}">
+                                <img src="{{ $product['information']->image }}" alt="img-placeholder" />
                             </a>
                         </div>
                         <div class="card-body">
                             <div class="item-name">
-                                <h6 class="mb-0"><a href="app-ecommerce-details.html" class="text-body">Apple Watch Series 5</a></h6>
-                                <span class="item-company">By <a href="#" class="company-name">Apple</a></span>
+                                <h6 class="mb-0"><a href="{{ route('detail', $product['information']->id) }}" class="text-body">{{ $product['information']->name }}</a></h6>
+                                <span class="item-company">Bởi <a href="#" class="company-name">{{ $product['information']->company_name }}</a></span>
                                 <div class="item-rating">
                                     <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
+                                        {!! starRating($product['information']->rate) !!}
                                     </ul>
                                 </div>
                             </div>
-                            <span class="text-success mb-1">In Stock</span>
                             <div class="item-quantity">
-                                <span class="quantity-title">Qty:</span>
-                                <div class="quantity-counter-wrapper">
+                                <span class="quantity-title">Số lượng:</span>
+                                <div data-id="{{ $product['information']->id }}" data-price="{{ $product['information']->price }}" class="quantity-counter-wrapper">
                                     <div class="input-group">
-                                        <input type="text" class="quantity-counter" value="1" />
+                                        <input id="i-quantity-{{ $product['information']->id }}" type="text" class="quantity-counter" value="{{ $product['amount'] }}" />
                                     </div>
                                 </div>
                             </div>
-                            <span class="delivery-date text-muted">Delivery by, Wed Apr 25</span>
-                            <span class="text-success">17% off 4 offers Available</span>
+                            <span class="delivery-date text-muted">Giao vào, {{ now()->addDays(random_int(3, 5))->toFormattedDateString() }}</span>
                         </div>
                         <div class="item-options text-center">
                             <div class="item-wrapper">
                                 <div class="item-cost">
-                                    <h4 class="item-price">$19.99</h4>
+                                    <h4 id="h4-price-{{ $product['information']->id }}" class="item-price">{{ prettyPrice($product['sum_price']) }}</h4>
                                     <p class="card-text shipping">
-                                        <span class="badge rounded-pill badge-light-success">Free Shipping</span>
+                                        <span class="badge rounded-pill badge-light-success">Miễn phí giao hàng</span>
                                     </p>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-light mt-1 remove-wishlist">
+                            <button type="button" data-id="{{ $product['information']->id }}" class="btn-remove_cart btn btn-light mt-1 remove-wishlist">
                                 <i data-feather="x" class="align-middle me-25"></i>
-                                <span>Remove</span>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-cart move-cart">
-                                <i data-feather="heart" class="align-middle me-25"></i>
-                                <span class="text-truncate">Add to Wishlist</span>
+                                <span>Xóa</span>
                             </button>
                         </div>
                     </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img">
-                            <a href="app-ecommerce-details.html">
-                                <img src="app-assets/images/pages/eCommerce/2.png" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-name">
-                                <h6 class="mb-0">
-                                    <a href="app-ecommerce-details.html" class="text-body">Apple iPhone 11 (64GB, Black)</a>
-                                </h6>
-                                <span class="item-company">By <a href="#" class="company-name">Apple</a></span>
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <span class="text-success mb-1">In Stock</span>
-                            <div class="item-quantity">
-                                <span class="quantity-title">Qty:</span>
-                                <div class="quantity-counter-wrapper">
-                                    <div class="input-group">
-                                        <input type="text" class="quantity-counter" value="1" />
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="delivery-date text-muted">Delivery by, Wed Apr 24</span>
-                            <span class="text-success">7% off 1 offers Available</span>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$4999.99</h4>
-                                    <p class="card-text shipping">
-                                        <span class="badge rounded-pill badge-light-success">Free Shipping</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-light mt-1 remove-wishlist">
-                                <i data-feather="x" class="align-middle me-25"></i>
-                                <span>Remove</span>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-cart move-cart">
-                                <i data-feather="heart" class="align-middle me-25"></i>
-                                <span class="text-truncate">Add to Wishlist</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img">
-                            <a href="app-ecommerce-details.html">
-                                <img src="app-assets/images/pages/eCommerce/3.png" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-name">
-                                <h6 class="mb-0"><a href="app-ecommerce-details.html" class="text-body">Apple iMac 27-inch</a></h6>
-                                <span class="item-company">By <a href="#" class="company-name">Apple</a></span>
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <span class="text-success mb-1">In Stock</span>
-                            <div class="item-quantity">
-                                <span class="quantity-title">Qty:</span>
-                                <div class="quantity-counter-wrapper">
-                                    <div class="input-group">
-                                        <input type="text" class="quantity-counter" value="1" />
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="delivery-date text-muted">Delivery by, Wed Apr 27</span>
-                            <span class="text-success">3% off 1 offers Available</span>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$4499.99</h4>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-light mt-1 remove-wishlist">
-                                <i data-feather="x" class="align-middle me-25"></i>
-                                <span>Remove</span>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-cart move-cart">
-                                <i data-feather="heart" class="align-middle me-25"></i>
-                                <span class="text-truncate">Add to Wishlist</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img">
-                            <a href="app-ecommerce-details.html">
-                                <img src="app-assets/images/pages/eCommerce/4.png" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-name">
-                                <h6 class="mb-0">
-                                    <a href="app-ecommerce-details.html" class="text-body">OneOdio A71 Wired Headphones</a>
-                                </h6>
-                                <span class="item-company">By <a href="#" class="company-name">OneOdio</a></span>
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <span class="text-success mb-1">In Stock</span>
-                            <div class="item-quantity">
-                                <span class="quantity-title">Qty:</span>
-                                <div class="quantity-counter-wrapper">
-                                    <div class="input-group">
-                                        <input type="text" class="quantity-counter" value="1" />
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="delivery-date text-muted">Delivery by, Wed Apr 29</span>
-                            <span class="text-success">5% off 2 offers Available</span>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$599.99</h4>
-                                    <p class="card-text shipping">
-                                        <span class="badge rounded-pill badge-light-success">Free Shipping</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-light mt-1 remove-wishlist">
-                                <i data-feather="x" class="align-middle me-25"></i>
-                                <span>Remove</span>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-cart move-cart">
-                                <i data-feather="heart" class="align-middle me-25"></i>
-                                <span class="text-truncate">Add to Wishlist</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img">
-                            <a href="app-ecommerce-details.html">
-                                <img src="app-assets/images/pages/eCommerce/5.png" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-name">
-                                <h6 class="mb-0">
-                                    <a href="app-ecommerce-details.html" class="text-body">Apple - MacBook Air® (Latest Model) - 13.3" Display - Silver</a>
-                                </h6>
-                                <span class="item-company">By <a href="#" class="company-name">Apple</a></span>
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <span class="text-success mb-1">In Stock</span>
-                            <div class="item-quantity">
-                                <span class="quantity-title">Qty:</span>
-                                <div class="quantity-counter-wrapper">
-                                    <div class="input-group">
-                                        <input type="text" class="quantity-counter" value="1" />
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="delivery-date text-muted">Delivery by, Wed Apr 30</span>
-                            <span class="text-success">3% off 1 offers Available</span>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$649.99</h4>
-                                    <p class="card-text shipping">
-                                        <span class="badge rounded-pill badge-light-success">Free Shipping</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-light mt-1 remove-wishlist">
-                                <i data-feather="x" class="align-middle me-25"></i>
-                                <span>Remove</span>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-cart move-cart">
-                                <i data-feather="heart" class="align-middle me-25"></i>
-                                <span class="text-truncate">Add to Wishlist</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card ecommerce-card">
-                        <div class="item-img">
-                            <a href="app-ecommerce-details.html">
-                                <img src="app-assets/images/pages/eCommerce/6.png" alt="img-placeholder" />
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="item-name">
-                                <h6 class="mb-0">
-                                    <a href="app-ecommerce-details.html" class="text-body">Switch Pro Controller </a>
-                                </h6>
-                                <span class="item-company">By <a href="#" class="company-name">Sharp</a></span>
-                                <div class="item-rating">
-                                    <ul class="unstyled-list list-inline">
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="filled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                        <li class="ratings-list-item"><i data-feather="star" class="unfilled-star"></i></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <span class="text-success mb-1">In Stock</span>
-                            <div class="item-quantity">
-                                <span class="quantity-title">Qty:</span>
-                                <div class="quantity-counter-wrapper">
-                                    <div class="input-group">
-                                        <input type="text" class="quantity-counter" value="1" />
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="delivery-date text-muted">Delivery by, Wed Apr 30</span>
-                            <span class="text-success">6% off 3 offers Available</span>
-                        </div>
-                        <div class="item-options text-center">
-                            <div class="item-wrapper">
-                                <div class="item-cost">
-                                    <h4 class="item-price">$1999.99</h4>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-light mt-1 remove-wishlist">
-                                <i data-feather="x" class="align-middle me-25"></i>
-                                <span>Remove</span>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-cart move-cart">
-                                <i data-feather="heart" class="align-middle me-25"></i>
-                                <span class="text-truncate">Add to Wishlist</span>
-                            </button>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <!-- Checkout Place Order Left ends -->
 
@@ -388,11 +123,11 @@
                                 <ul class="list-unstyled">
                                     <li class="price-detail">
                                         <div class="detail-title">Tổng tiền sản phẩm</div>
-                                        <div class="detail-amt">$598</div>
+                                        <div id="div-price_products" class="detail-amt">{{ prettyPrice($price_products) }}</div>
                                     </li>
                                     <li class="price-detail">
                                         <div class="detail-title">Thuế</div>
-                                        <div class="detail-amt">$25</div>
+                                        <div id="div-tax" class="detail-amt">{{ prettyPrice($tax) }}</div>
                                     </li>
                                     <li class="price-detail">
                                         <div class="detail-title">Phí giao hàng</div>
@@ -403,7 +138,7 @@
                                 <ul class="list-unstyled">
                                     <li class="price-detail">
                                         <div class="detail-title detail-total">Tổng cộng</div>
-                                        <div class="detail-amt fw-bolder">$574</div>
+                                        <div id="div-total" class="detail-amt fw-bolder">{{ prettyPrice($total) }}</div>
                                     </li>
                                 </ul>
                                 <button type="button" class="btn btn-primary w-100 btn-next place-order">Tiếp tục</button>
@@ -505,13 +240,13 @@
                                 <li class="price-detail">
                                     <div class="details-title">Tổng tiền 3 sản phẩm</div>
                                     <div class="detail-amt">
-                                        <strong>$699.30</strong>
+                                        <strong>{{ prettyPrice($price_products) }}</strong>
                                     </div>
                                 </li>
                                 <li class="price-detail">
                                     <div class="details-title">Thuế</div>
                                     <div class="detail-amt">
-                                        <strong>$25</strong>
+                                        <strong>{{ prettyPrice($tax) }}</strong>
                                     </div>
                                 </li>
                                 <li class="price-detail">
@@ -523,7 +258,7 @@
                             <ul class="list-unstyled price-details">
                                 <li class="price-detail">
                                     <div class="details-title">Tổng cộng</div>
-                                    <div class="detail-amt fw-bolder">$699.30</div>
+                                    <div class="detail-amt fw-bolder">{{ prettyPrice($total) }}</div>
                                 </li>
                             </ul>
                         </div>
@@ -546,4 +281,62 @@
 
 @section('script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-ecommerce-checkout.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.btn-remove_cart').on('click', function() {
+                $.ajax({
+                    url: '{{ route('remove_cart') }}',
+                    type: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: $(this).data('id'),
+                    }
+                }).done(function() {
+                    updateCartSummarize()
+                })
+            })
+            $('.btn.btn-primary.bootstrap-touchspin-up').on('click', function () {
+                cartChange($(this).parent().parent().parent())
+
+            })
+            $('.btn.btn-primary.bootstrap-touchspin-down').on('click', function () {
+                cartChange($(this).parent().parent().parent(), 'decrease')
+            })
+
+            function updateCartSummarize() {
+                $.ajax({
+                    url: '{{ route('cart_summarize') }}'
+                }).done(function (data) {
+                    $('#div-price_products').text(prettyMoney(data.price_products))
+                    $('#div-tax').text(prettyMoney(data.tax))
+                    $('#div-total').text(prettyMoney(data.total))
+                })
+            }
+
+            function cartChange(product, type = 'increase') {
+                const product_id = product.data('id')
+                const price = product.data('price')
+                const quantity = $('#i-quantity-' + product_id).val()
+                const pretty_money = prettyMoney(quantity * price)
+
+                $('#h4-price-' + product_id).text(pretty_money)
+                $.ajax({
+                    url: '{{ route('add_to_cart') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: product_id,
+                        type: type,
+                    }
+                }).done(function() {
+                    updateCartSummarize()
+                })
+            }
+
+            function prettyMoney(price)
+            {
+                return price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
+            }
+        })
+    </script>
 @endsection

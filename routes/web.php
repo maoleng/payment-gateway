@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,56 @@ Route::get('/detail/{id}', function ($id) {
 })->name('detail');
 
 Route::get('/cart', function () {
-    return view('cart');
+    $cart = session()->get('cart') ?? [];
+    $products = getProducts();
+    $result = [];
+    foreach ($cart as $product_id => $amount) {
+        $product = $products->where('id', $product_id)->first();
+        $sum_price = $amount * $product->price;
+        $result[$product_id]['amount'] = $amount;
+        $result[$product_id]['sum_price'] = $sum_price;
+        $result[$product_id]['information'] = $product;
+    }
+    $cart_summarize = getCartSummarize();
+
+    return view('cart', [
+        'products' => $result,
+        'price_products' => $cart_summarize['price_products'],
+        'tax' => $cart_summarize['tax'],
+        'total' => $cart_summarize['total'],
+    ]);
 })->name('cart');
+
+Route::get('/cart_summarize', function () {
+    return getCartSummarize();
+})->name('cart_summarize');
+
+Route::post('/add_to_cart', function (Request $request) {
+    $data = $request->all();
+    $product_id = $data['product_id'];
+    $type = $data['type'] ?? 'increase';
+
+    $count_product = session()->get("cart.$product_id");
+    if ($type === 'increase') {
+        if ($count_product === null) {
+            session()->put("cart.$product_id", 1);
+        } elseif ($count_product === 10) {
+            session()->put("cart.$product_id", 10);
+        } else {
+            session()->increment("cart.$product_id");
+        }
+    } else {
+        $count_product === 1 ?
+            session()->put("cart.$product_id", 1) :
+            session()->decrement("cart.$product_id");
+    }
+})->name('add_to_cart');
+
+Route::delete('/remove_cart', function (Request $request) {
+    session()->remove("cart.{$request->get('product_id')}");
+})->name('remove_cart');
+
+Route::get('/test', function () {
+
+    return session()->all();
+});

@@ -31,7 +31,27 @@ if (!function_exists('starRating')) {
 if (!function_exists('prettyPrice')) {
     function prettyPrice($price): string
     {
-        return number_format($price, 0, '').' đồng';
+        return number_format($price, 0, '').' VND';
+    }
+}
+
+if (!function_exists('getCartSummarize')) {
+    function getCartSummarize(): array
+    {
+        $cart = session()->get('cart') ?? [];
+        $products = getProducts();
+        $price_products = 0;
+        foreach ($cart as $product_id => $amount) {
+            $product = $products->where('id', $product_id)->first();
+            $price_products += $amount * $product->price;
+        }
+        $tax = $price_products / 10;
+
+        return [
+            'price_products' => $price_products,
+            'tax' => $tax,
+            'total' => $price_products + $tax,
+        ];
     }
 }
 
