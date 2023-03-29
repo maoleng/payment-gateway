@@ -87,11 +87,11 @@
                                 </tr>
                                 <tr>
                                     <td class="pe-1">Tên ngân hàng:</td>
-                                    <td>{{ $data['vnp_BankCode'] }}</td>
+                                    <td>{{ $data['vnp_BankCode'] ?? null }}</td>
                                 </tr>
                                 <tr>
                                     <td class="pe-1">Mã giao dịch:</td>
-                                    <td>{{ $data['vnp_TransactionNo'] }}</td>
+                                    <td>{{ $data['vnp_TransactionNo'] ?? $data['paymentId'] }}</td>
                                 </tr>
                                 </tbody>
                             </table>

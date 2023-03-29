@@ -223,6 +223,12 @@
                                         <label class="form-check-label" for="customColorRadio4"> Thanh toán qua thẻ quốc tế </label>
                                     </div>
                                 </li>
+                                <li class="py-50">
+                                    <div class="form-check">
+                                        <input value="PAYPAL" type="radio" id="customColorRadio5" name="paymentOptions" class="form-check-input" />
+                                        <label class="form-check-label" for="customColorRadio5"> PayPal </label>
+                                    </div>
+                                </li>
                             </ul>
                             <div class="col-12">
                                 <button id="btn-pay" type="button" class="btn btn-primary btn-next delivery-address">Tiếp tục</button>

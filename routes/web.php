@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\VNPayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -90,8 +91,11 @@ Route::post('/pay', function (Request $request) {
     session()->flush();
     $data = $request->all();
     session()->put('payment', $data);
+    if ($data['bank_code'] === 'PAYPAL') {
+        return (new PaypalController)->pay($data['amount']);
+    }
 
-    return (new VNPayController())->createPaymentUrl([
+    return (new VNPayController)->createPaymentUrl([
         'amount' => $data['amount'],
         'bank_code' => $data['bank_code'],
     ]);
@@ -106,4 +110,4 @@ Route::get('/invoice', function (Request $request) {
             'payment' => $payment,
             'data' => $request->all(),
         ]);
-});
+})->name('invoice');
