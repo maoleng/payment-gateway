@@ -84,3 +84,7 @@ Route::get('/test', function () {
 
     return session()->all();
 });
+
+Route::get('/invoice', function () {
+   return view('invoice');
+});
