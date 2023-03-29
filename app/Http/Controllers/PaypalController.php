@@ -21,7 +21,7 @@ class PaypalController extends Controller
     {
         try {
             $response = $this->gateway->purchase(array(
-                'amount' => $amount / 23000,
+                'amount' => (int) ($amount / 23000),
                 'currency' => env('PAYPAL_CURRENCY'),
                 'returnUrl' => route('invoice'),
                 'cancelUrl' => url('error')
